@@ -1,3 +1,33 @@
+html {
+  height: 100%;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  background-color: rgb(0, 0, 0);
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+li a:hover {
+  background-color: #03e9f4;
+  box-shadow: 0 0 50px #03e9f4;
+}
+
 body {
   background-image: url("../img/morgana-blurred.jpg");
   background-size: cover;
@@ -5,11 +35,12 @@ body {
   background-attachment: fixed;
   background-position: center;
   background-blend-mode: lighten;
+  font-family: sans-serif;
  }
 
 img {
   border-radius: 50%;
-  border: 2px solid rgb(255, 248, 248);
+  border: 1.5px solid rgb(255, 248, 248);
   width: 30%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -26,31 +57,50 @@ div {
   margin-left: 10px;
 }
 
-h3 {
+h1 {
   text-align: center;
-  color:black;
-  background-color: rgb(255, 255, 255, 0.5);
+  color:#fff;
+  background: rgba(0,0,0,.4);
+  display: block;
   padding-top: 10px;
-  padding-right: 10px;
+  padding-right: 0px;
   padding-bottom: 10px;
-  padding-left: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
-  border-radius: 10px;
+  padding-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  border-radius: 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 160px 0 rgba(0, 0, 0, 0.19);
+  text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+h2 {
+  text-align: center;
+  color:#fff;
+  background: rgba(0,0,0,.4);
+  display: block;
+  padding-top: 10px;
+  padding-right: 0px;
+  padding-bottom: 10px;
+  padding-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  border-radius: 0px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 160px 0 rgba(0, 0, 0, 0.19);
+  text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 canvas {
   background-color: rgb(255,255,255, 1);
-  padding-top: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  padding: 5px;
   margin-top: 10px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  margin-left: 2px;
+  border-radius: 10px;
   border-radius: 50%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -59,4 +109,10 @@ canvas {
   display: grid;
   grid-template-rows: 2;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.chart {
+  text-align: center;
+  padding: 2px;
+  margin: 5px;
 }

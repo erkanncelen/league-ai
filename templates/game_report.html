@@ -2,12 +2,19 @@
 <html>
     <head>
         <link rel= "stylesheet" type= "text/css" href= "../static/styles/game_report_style.css">
-      </head>
+    </head>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+        
+    </ul>
+    <h2>Game Report</h2>
     <div>
         <div class="wrapper">
 
         {% for champion in champions %}
-            <div>
+            <div class="chart">
                 <img src="https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/{{champion}}.png" title="{{champion}}" alt="{{champion}}">
                 <canvas id="myChart_{{champion}}" width="10" height="10"></canvas>
             </div>
@@ -71,8 +78,9 @@
         );
         </script>
     {% endfor %}
+    </div>
 
-    <div><h1>Example Text Here</h1></div>
+    <h2>Example Text Here</h2>
 
     
 
