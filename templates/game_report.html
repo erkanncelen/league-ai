@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel= "stylesheet" type= "text/css" href= "../static/styles/game_report_style.css">
+      </head>
+    <div>
+        <div class="wrapper">
+
+        {% for champion in champions %}
+            <div>
+                <img src="https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/{{champion}}.png" title="{{champion}}" alt="{{champion}}">
+                <canvas id="myChart_{{champion}}" width="10" height="10"></canvas>
+            </div>
+        {% endfor %}
+        </div>
+        {% for i in range(chart_data_js|length) %}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        var dumb = JSON.parse({{chart_data_js[i] | tojson |safe}});
+        var data = {
+        datasets: [{
+            data: dumb,
+            backgroundColor: [
+        'rgb(128,0,0, 0.5)',
+        'rgb(0,128,128, 0.5)',
+        'rgb(46,139,87, 0.5)',
+        'rgb(75,0,130, 0.5)',
+        'rgb(112,128,144, 0.5)',
+        'rgb(50,205,50, 0.5)',
+        'rgb(255,215,0, 0.5)'
+        ]
+        }],
+
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: ['Damage', 'Objectives', 'Buildings', 'Vision', 'CC', 'Heal & Shield', 'Gold']
+        };
+    
+        var config = {
+        type: 'polarArea',
+        data: data,
+        options: {
+            responsive: true,
+            scales: {
+            r: {
+                min: 0,
+                max: 30,
+                pointLabels: {
+                display: false,
+                centerPointLabels: true,
+                font: {
+                    size: 10
+                }
+                }
+            },
+            },
+            plugins: {
+            legend: {
+                position: 'top',
+                display: false
+            },
+            title: {
+                display: false,
+                text: 'Chart.js Polar Area Chart With Centered Point Labels'
+            }
+            }
+        },
+        };
+        var myChart = new Chart(
+            document.getElementById('myChart_{{champions[i]}}'),
+            config
+        );
+        </script>
+    {% endfor %}
+
+    <div><h1>Example Text Here</h1></div>
+
+    
+
+</html>

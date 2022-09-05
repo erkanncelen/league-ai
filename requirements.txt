@@ -1,0 +1,5 @@
+Flask==2.1.2
+Pandas==1.4.3
+Requests==2.28.1
+Dash==2.6.0
+Plotly==5.10.0
