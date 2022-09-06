@@ -101,7 +101,6 @@ canvas {
   margin-right: 5px;
   margin-left: 2px;
   border-radius: 10px;
-  border-radius: 50%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -116,3 +115,23 @@ canvas {
   padding: 2px;
   margin: 5px;
 }
+
+.polar_chart {
+  text-align: center;
+  padding: 2px;
+  margin: 5px;
+  border-radius: 50%;
+}
+
+.heatmap_chart {
+  text-align: center;
+  padding: 2px;
+  margin-right: 200px;
+  margin-left: 200px;
+  background-image: url("../img/summoners_rift_minimap.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 2px solid rgb(255, 248, 248);
+}
+

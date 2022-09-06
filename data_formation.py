@@ -1,7 +1,39 @@
 import pandas as pd
 import numpy as np
-from riot_api_connection import riot_api, game_to_df
+from riot_api_connection import riot_api
 import json
+
+def game_to_df(game):
+    columns = pd.DataFrame.from_dict(game['info']['participants'][0]).set_index('participantId').columns
+    df = pd.DataFrame(columns=columns)
+    for item in game['info']['participants']:
+        temp = pd.DataFrame.from_dict(item).set_index('participantId')[:1]
+        df = pd.concat([df, temp])
+    return df
+
+def game_timeline_to_df(game_timeline):
+    df = pd.DataFrame.from_dict(game_timeline)
+    frames_info = pd.DataFrame.from_dict(df.loc['frames']['info'])
+    # Expand timeline data into a final dataframe
+    game_timeline_df = pd.DataFrame()
+    for i in range(len(frames_info['participantFrames'])):
+        df = pd.DataFrame.from_dict(frames_info['participantFrames'][i], orient='index')
+        df['timeframe'] = i
+        frames = [game_timeline_df, df]
+        game_timeline_df = pd.concat(frames)
+    # Expand championStats column
+    keys = game_timeline_df['championStats'][0].keys()
+    for key in keys:
+        game_timeline_df[key] = game_timeline_df['championStats'].apply(lambda a: a[key])
+    # Expand damageStats column
+    keys = game_timeline_df['damageStats'][0].keys()
+    for key in keys:
+        game_timeline_df[key] = game_timeline_df['damageStats'].apply(lambda a: a[key])
+    # Expand position column
+    game_timeline_df['position_x'] = game_timeline_df['position'].apply(lambda a: a['x'])
+    game_timeline_df['position_y'] = game_timeline_df['position'].apply(lambda a: a['y'])
+
+    return game_timeline_df
 
 def game_report_data(game):
     api = riot_api()

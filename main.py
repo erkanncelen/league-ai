@@ -3,7 +3,7 @@ from flask import request, escape
 import pandas as pd
 import numpy as np
 import logging
-from riot_api_connection import riot_api, game_to_df
+from riot_api_connection import riot_api
 import json
 import data_formation
 
@@ -26,11 +26,21 @@ def game_report():
     last_game = matches[0]
     game = last_game
     champions, chart_data_js, labels = data_formation.game_report_data(game)
+    game_timeline = api.get_game_timeline_by_match_id(game)
+    game_timeline_df = data_formation.game_timeline_to_df(game_timeline)
+    red_team_positions = game_timeline_df[game_timeline_df['participantId'].isin([1,2,3,4,5])]['position']
+    blue_team_positions = game_timeline_df[game_timeline_df['participantId'].isin([6,7,8,9,10])]['position']
+
+    red_team_positions = json.dumps(list(red_team_positions)).replace('"','')
+    blue_team_positions = json.dumps(list(blue_team_positions)).replace('"','')
     
     return render_template('game_report.html',
     champions = champions,
     chart_data_js = chart_data_js,
-    labels = labels
+    labels = labels,
+
+    red_team_positions = red_team_positions,
+    blue_team_positions = blue_team_positions
     )
 
 

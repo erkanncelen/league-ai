@@ -16,7 +16,7 @@
         {% for champion in champions %}
             <div class="chart">
                 <img src="https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/{{champion}}.png" title="{{champion}}" alt="{{champion}}">
-                <canvas id="myChart_{{champion}}" width="10" height="10"></canvas>
+                <canvas id="myChart_{{champion}}" width="10" height="10" class="polar_chart"></canvas>
             </div>
         {% endfor %}
         </div>
@@ -77,8 +77,60 @@
             config
         );
         </script>
-    {% endfor %}
+        {% endfor %}
     </div>
+    <h2>Summoner Positions</h2>
+    <div>
+        <canvas id="heatmap" width="10" height="10" class="heatmap_chart"></canvas>
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        var red_team_positions = {{red_team_positions | safe}};
+        var blue_team_positions = {{blue_team_positions | safe}};
+        var data = {
+        datasets: [{
+            label: 'Red Team',
+            data: red_team_positions,
+            backgroundColor: 'rgb(255, 99, 132)'
+        },
+        {
+            label: 'Blue Team',
+            data: blue_team_positions,
+            backgroundColor: 'rgb(0, 150, 255)'
+        }],
+        };
+        var config = {
+        type: 'scatter',
+        data: data,
+        options: {
+            elements: {
+                point: {
+                    radius: 5
+                }
+            },
+            scales: {
+            x: {
+                display: false,
+                grid: {
+                    display: false},
+                min: 0,
+                max: 15000
+            },
+            y: {
+                display: false,
+                grid: {
+                    display: false},
+                min: 0,
+                max: 15000
+            }
+            }
+        }
+        };
+        var myChart = new Chart(
+            document.getElementById('heatmap'),
+            config
+        );
+        </script>
 
     <h2>Example Text Here</h2>
 
