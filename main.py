@@ -28,19 +28,35 @@ def game_report():
     champions, chart_data_js, labels = data_formation.game_report_data(game)
     game_timeline = api.get_game_timeline_by_match_id(game)
     game_timeline_df = data_formation.game_timeline_to_df(game_timeline)
-    red_team_positions = game_timeline_df[game_timeline_df['participantId'].isin([1,2,3,4,5])]['position']
-    blue_team_positions = game_timeline_df[game_timeline_df['participantId'].isin([6,7,8,9,10])]['position']
+    summoner1_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([1])]['position'])).replace('"','')
+    summoner2_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([2])]['position'])).replace('"','')
+    summoner3_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([3])]['position'])).replace('"','')
+    summoner4_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([4])]['position'])).replace('"','')
+    summoner5_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([5])]['position'])).replace('"','')
+    summoner6_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([6])]['position'])).replace('"','')
+    summoner7_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([7])]['position'])).replace('"','')
+    summoner8_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([8])]['position'])).replace('"','')
+    summoner9_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([9])]['position'])).replace('"','')
+    summoner10_positions = json.dumps(list(game_timeline_df[game_timeline_df['participantId'].isin([10])]['position'])).replace('"','')
 
-    red_team_positions = json.dumps(list(red_team_positions)).replace('"','')
-    blue_team_positions = json.dumps(list(blue_team_positions)).replace('"','')
+
+    
     
     return render_template('game_report.html',
     champions = champions,
     chart_data_js = chart_data_js,
     labels = labels,
 
-    red_team_positions = red_team_positions,
-    blue_team_positions = blue_team_positions
+    summoner1_positions = summoner1_positions,
+    summoner2_positions = summoner2_positions,
+    summoner3_positions = summoner3_positions,
+    summoner4_positions = summoner4_positions,
+    summoner5_positions = summoner5_positions,
+    summoner6_positions = summoner6_positions,
+    summoner7_positions = summoner7_positions,
+    summoner8_positions = summoner8_positions,
+    summoner9_positions = summoner9_positions,
+    summoner10_positions = summoner10_positions
     )
 
 

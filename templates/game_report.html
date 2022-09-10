@@ -85,19 +85,69 @@
     </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
-        var red_team_positions = {{red_team_positions | safe}};
-        var blue_team_positions = {{blue_team_positions | safe}};
+        var summoner1_positions = {{summoner1_positions | safe}};
+        var summoner2_positions = {{summoner2_positions | safe}};
+        var summoner3_positions = {{summoner3_positions | safe}};
+        var summoner4_positions = {{summoner4_positions | safe}};
+        var summoner5_positions = {{summoner5_positions | safe}};
+        var summoner6_positions = {{summoner6_positions | safe}};
+        var summoner7_positions = {{summoner7_positions | safe}};
+        var summoner8_positions = {{summoner8_positions | safe}};
+        var summoner9_positions = {{summoner9_positions | safe}};
+        var summoner10_positions = {{summoner10_positions | safe}};
         var data = {
-        datasets: [{
-            label: 'Red Team',
-            data: red_team_positions,
+        datasets: [
+            {
+            label: "{{champions[0]}}",
+            data: summoner1_positions,
             backgroundColor: 'rgb(255, 99, 132)'
         },
         {
-            label: 'Blue Team',
-            data: blue_team_positions,
-            backgroundColor: 'rgb(0, 150, 255)'
-        }],
+            label: "{{champions[1]}}",
+            data: summoner2_positions,
+            backgroundColor: 'rgb(255, 99, 132)'
+        },
+        {
+            label: "{{champions[2]}}",
+            data: summoner3_positions,
+            backgroundColor: 'rgb(255, 99, 132)'
+        },
+        {
+            label: "{{champions[3]}}",
+            data: summoner4_positions,
+            backgroundColor: 'rgb(255, 99, 132)'
+        },
+        {
+            label: "{{champions[4]}}",
+            data: summoner5_positions,
+            backgroundColor: 'rgb(255, 99, 132)'
+        },
+        {
+            label: "{{champions[5]}}",
+            data: summoner6_positions,
+            backgroundColor: 'rgb(30,144,255)'
+        },
+        {
+            label: "{{champions[6]}}",
+            data: summoner7_positions,
+            backgroundColor: 'rgb(30,144,255)'
+        },
+        {
+            label: "{{champions[7]}}",
+            data: summoner8_positions,
+            backgroundColor: 'rgb(30,144,255)'
+        },
+        {
+            label: "{{champions[8]}}",
+            data: summoner9_positions,
+            backgroundColor: 'rgb(30,144,255)'
+        },
+        {
+            label: "{{champions[9]}}",
+            data: summoner10_positions,
+            backgroundColor: 'rgb(30,144,255)'
+        }
+    ],
         };
         var config = {
         type: 'scatter',
