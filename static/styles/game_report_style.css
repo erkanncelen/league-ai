@@ -5,9 +5,8 @@ html {
 ul {
   list-style-type: none;
   margin: 0px;
-  padding: 0px;
-  overflow: hidden;
-  background-color: rgb(0, 0, 0);
+  padding: 15px;
+  background-color: rgb(0, 0, 0, 0);
 }
 
 .toggle {
@@ -98,19 +97,19 @@ h1 {
 h2 {
   text-align: center;
   color:#fff;
-  background: rgba(0,0,0,.4);
+  /* background: rgba(0,0,0,.4); */
   display: block;
   padding-top: 10px;
   padding-right: 0px;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
   padding-left: 0px;
   margin-top: 0px;
   margin-bottom: 0px;
   margin-right: 0px;
   margin-left: 0px;
   border-radius: 0px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 160px 0 rgba(0, 0, 0, 0.19);
-  text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 160px 0 rgba(0, 0, 0, 0.19); */
+  /* text-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
 }
 
 canvas {
