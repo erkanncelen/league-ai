@@ -41,6 +41,16 @@ h1 {
   border-radius: 10px;
 }
 
+.submit_button {
+  cursor: pointer;
+}
+
+.summoner_name input:focus{
+  background:rgb(0, 0, 0);
+  transition-delay:0s;
+}
+
+
 .login-box {
   position: absolute;
   top: 50%;

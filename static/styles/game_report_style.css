@@ -10,12 +10,18 @@ ul {
   background-color: rgb(0, 0, 0);
 }
 
+.toggle {
+  display: inline-block;
+}
+
 li {
-  float: left;
+  display: inline-block;
 }
 
 li a {
   display: block;
+  cursor: pointer;
+  border-radius: 10px;
   color: white;
   text-align: center;
   padding: 14px 16px;
@@ -38,21 +44,35 @@ body {
   font-family: sans-serif;
  }
 
-img {
+/* img {
   border-radius: 50%;
   border: 1.5px solid rgb(255, 248, 248);
   width: 30%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+} */
+
+.champ_img{
+  /* clip-path: circle(40%); */
+  object-fit: cover;
+  object-position: 40% 40%;
+  border-radius: 50%;
+  border: 1.5px solid rgb(255, 248, 248, 0.5);
+  width: 30%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-div {
+.icon_img{
+  width: 30px;
+}
+
+.basic {
   text-align: center;
-  padding-top: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   margin-right: 10px;
   margin-left: 10px;
 }
@@ -108,6 +128,7 @@ canvas {
   display: grid;
   grid-template-rows: 2;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  
 }
 
 .chart {
@@ -121,6 +142,9 @@ canvas {
   padding: 2px;
   margin: 5px;
   border-radius: 50%;
+  background-color: rgba(0, 15, 17, 0.7);
+  /* border: 1.5px solid rgba(248, 255, 255, 0.5); */
+
 }
 
 .heatmap_chart {
@@ -135,3 +159,85 @@ canvas {
   border: 2px solid rgb(255, 248, 248);
 }
 
+.toggled_chart {
+  text-align: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* border: 2px solid rgb(255, 248, 248); */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 0px;
+}
+
+.toggled_bar_chart {
+  text-align: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* border: 2px solid rgb(255, 248, 248); */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  height: 0px;
+}
+
+#totalDamageDoneToChampions {
+  height: 100%
+}
+
+#totalDamageDealtToChampions_bar {
+  height: 100%
+}
+
+.icon_wrapper {
+  display: inline-block;
+}
+
+.toggle_grouper {
+  text-align: center;
+}
+
+.toggle_wrapper {
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: 1fr 1fr;
+}
+
+.toggle_button {
+  display: inline-block;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 180px;
+  background-color: rgb(0, 0, 0, 0.8);
+  color: #fff;
+  text-align: left;
+  border-radius: 5%;
+  margin-top: 10px;
+  margin-left: -100px;
+  padding: 10px 10px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.zoom {
+  transition: all 200ms ease;
+}
+
+.zoom:hover {
+  transform: scale(1.7);
+}

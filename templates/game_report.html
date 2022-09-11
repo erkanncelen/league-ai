@@ -3,20 +3,26 @@
     <head>
         <link rel= "stylesheet" type= "text/css" href= "../static/styles/game_report_style.css">
     </head>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
+    <ul class="banner">
+        <li class="banner_button"><a href="/">Home</a></li>
+        <li class="banner_button"><a href="/about">About</a></li>
+        <li class="banner_button"><a href="/contact">Contact</a></li>
         
     </ul>
     <h2>Game Report</h2>
-    <div>
+    <div class="'basic">
         <div class="wrapper">
 
         {% for champion in champions %}
             <div class="chart">
-                <img src="https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/{{champion}}.png" title="{{champion}}" alt="{{champion}}">
-                <canvas id="myChart_{{champion}}" width="10" height="10" class="polar_chart"></canvas>
+                
+                <img class="champ_img" src="https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/{{champion}}.png" title="{{champion}}" alt="{{champion}}"><br>
+                <div class="icon_wrapper">
+                    {% for medal in champion_medals[champion] %}
+                            <div class="tooltip"><div class="zoom"><img class="icon_img" src="../static/img/{{medal|lower}}_icon.png" alt="" /></div><span class="tooltiptext">{{medal_definitions[medal] | safe}}</span></div>
+                    {% endfor %}
+                </div><br>
+                <canvas id="myChart_{{champion}}" width="10" height="10" class="polar_chart"></canvas><br>
             </div>
         {% endfor %}
         </div>
@@ -28,13 +34,13 @@
         datasets: [{
             data: dumb,
             backgroundColor: [
-        'rgb(128,0,0, 0.5)',
-        'rgb(0,128,128, 0.5)',
-        'rgb(46,139,87, 0.5)',
-        'rgb(75,0,130, 0.5)',
-        'rgb(112,128,144, 0.5)',
-        'rgb(50,205,50, 0.5)',
-        'rgb(255,215,0, 0.5)'
+        'rgb(180,0,0, 0.7)',
+        'rgb(0,128,128, 0.7)',
+        'rgb(210,105,0, 0.7)',
+        'rgb(128,0,128, 0.7)',
+        'rgb(255,20,147, 0.7)',
+        'rgb(60,179,113, 0.7)',
+        'rgb(255,200,0, 0.7)'
         ]
         }],
 
@@ -47,18 +53,32 @@
         data: data,
         options: {
             responsive: true,
-            scales: {
-            r: {
-                min: 0,
-                max: 30,
-                pointLabels: {
-                display: false,
-                centerPointLabels: true,
-                font: {
-                    size: 10
-                }
+            elements: {
+                arc: {
+                    borderWidth: 1,
+                    borderColor: 'rgb(255,255,255, 1)'
                 }
             },
+            scales: {
+                r: {
+                    ticks: {
+                    display: false
+                    },
+                    grid: {
+                    display: true,
+                    color: 'rgb(255,255,255, 0.1)'
+
+                    },
+                    min: 0,
+                    max: 30,
+                    pointLabels: {
+                    display: false,
+                    centerPointLabels: true,
+                    font: {
+                        size: 10
+                    }
+                    }
+                },
             },
             plugins: {
             legend: {
@@ -78,9 +98,61 @@
         );
         </script>
         {% endfor %}
+    <div class="toggle_wrapper">
+        <div class="toggle_grouper">
+            <div class="toggle_button" onclick = "damage_replace()"><li><a>Damage</a></li></div>
+            <div class="toggle_button" onclick = "gold_replace()"><li><a>Gold</a></li></div>
+            <div class="toggle_button" onclick = "xp_replace()"><li><a>XP</a></li></div>
+            <div class="toggle_button" onclick = "level_replace()"><li><a>Level</a></li></div>
+        </div>
+        <div class="toggle_grouper">
+            <div class="toggle_button" onclick = "bar_damage_replace()"><li><a>Damage</a></li></div>
+            <div class="toggle_button" onclick = "bar_objectives_replace()"><li><a>Objectives</a></li></div>
+            <div class="toggle_button" onclick = "bar_buildings_replace()"><li><a>Building</a></li></div>
+            <div class="toggle_button" onclick = "bar_mitigated_replace()"><li><a>Mitigated</a></li></div>
+            <div class="toggle_button" onclick = "bar_minions_replace()"><li><a>CS</a></li></div>
+            <div class="toggle_button" onclick = "bar_gold_replace()"><li><a>Gold</a></li></div>
+            <div class="toggle_button" onclick = "bar_vision_replace()"><li><a>Vision</a></li></div>
+            <div class="toggle_button" onclick = "bar_cc_replace()"><li><a>CC</a></li></div>
+            <div class="toggle_button" onclick = "bar_dead_replace()"><li><a>Dead</a></li></div>
+            <div class="toggle_button" onclick = "bar_living_replace()"><li><a>Alive</a></li></div>
+        </div>
     </div>
+
+    <div class="toggle_wrapper">
+        <div>
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> 
+            <div class="basic">
+            {% for key in line_chart_keys %}
+                <center><div id="{{key}}" class="toggled_chart" >
+                {{plotly_line_charts[key] | safe}}
+                </div></center>
+            {% endfor %}
+            </div>
+        </div>
+        <div>
+            <div class="basic">
+                {% for key in bar_chart_keys %}
+                    <center><div id="{{key}}_bar" class="toggled_bar_chart" >
+                    {{plotly_bar_charts[key] | safe}}
+                    </div></center>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="basic">
+        <center><div id="bar_chart" class="toggled_bar_chart" >
+            {{bar_chart | safe}}
+            </div></center>
+    </div>
+        
+    </div>
+    
     <h2>Summoner Positions</h2>
-    <div>
+    <div class="basic">
         <canvas id="heatmap" width="10" height="10" class="heatmap_chart"></canvas>
     </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -182,8 +254,157 @@
         );
         </script>
 
-    <h2>Example Text Here</h2>
-
+    <script type = "text/javascript">
+    function damage_replace() {
+        document.getElementById("totalDamageDoneToChampions").style.height="100%";
+        document.getElementById("totalGold").style.height="0";
+        document.getElementById("xp").style.height="0";
+        document.getElementById("level").style.height="0";
+        
+    }
+    function gold_replace() {
+        document.getElementById("totalDamageDoneToChampions").style.height="0";
+        document.getElementById("totalGold").style.height="100%";
+        document.getElementById("xp").style.height="0";
+        document.getElementById("level").style.height="0";
+    }
+    function xp_replace() {
+        document.getElementById("totalDamageDoneToChampions").style.height="0";
+        document.getElementById("totalGold").style.height="0";
+        document.getElementById("xp").style.height="100%";
+        document.getElementById("level").style.height="0";
+    }
+    function level_replace() {
+        document.getElementById("totalDamageDoneToChampions").style.height="0";
+        document.getElementById("totalGold").style.height="0";
+        document.getElementById("xp").style.height="0";
+        document.getElementById("level").style.height="100%";
+    }
     
+    
+    function bar_damage_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="100%";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_objectives_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="100%";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_buildings_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="100%";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_mitigated_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="100%";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_minions_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="100%";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_gold_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="100%";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_vision_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="100%";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_cc_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="100%";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_dead_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="100%";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="0";
+    }
+    function bar_living_replace() {
+        document.getElementById("totalDamageDealtToChampions_bar").style.height="0";
+        document.getElementById("damageDealtToObjectives_bar").style.height="0";
+        document.getElementById("damageDealtToBuildings_bar").style.height="0";
+        document.getElementById("damageSelfMitigated_bar").style.height="0";
+        document.getElementById("totalMinionsKilled_bar").style.height="0";
+        document.getElementById("goldEarned_bar").style.height="0";
+        document.getElementById("visionScore_bar").style.height="0";
+        document.getElementById("timeCCingOthers_bar").style.height="0";
+        document.getElementById("totalTimeSpentDead_bar").style.height="0";
+        document.getElementById("longestTimeSpentLiving_bar").style.height="100%";
+    }
+    
+
+</script>
+
 
 </html>
