@@ -6,7 +6,7 @@
     <ul class="banner">
         <li class="banner_button"><a href="/">Home</a></li>
         <li class="banner_button"><a href="/about">About</a></li>
-        <li class="banner_button"><a href="/contact">Contact</a></li>
+        <li class="banner_button_patreon"><a href="/patreon">Patreon</a></li>
         
     </ul>
     <h2></h2>
@@ -14,8 +14,7 @@
         <div class="wrapper">
 
         {% for champion in champions %}
-            <div class="chart">
-                
+            <div class="chart">    
                 <img class="champ_img" src="https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/{{champion}}.png" title="{{champion}}" alt="{{champion}}"><br>
                 <div class="icon_wrapper">
                     {% for medal in champion_medals[champion] %}
@@ -55,7 +54,7 @@
             responsive: true,
             elements: {
                 arc: {
-                    borderWidth: 0,
+                    borderWidth: 1,
                     borderColor: 'rgb(255,255,255, 1)'
                 }
             },
@@ -110,13 +109,10 @@
             <div class="toggle_button" onclick = "bar_damage_replace()"><li><a>Damage</a></li></div>
             <div class="toggle_button" onclick = "bar_objectives_replace()"><li><a>Objectives</a></li></div>
             <div class="toggle_button" onclick = "bar_buildings_replace()"><li><a>Building</a></li></div>
-            <div class="toggle_button" onclick = "bar_mitigated_replace()"><li><a>Mitigated</a></li></div>
             <div class="toggle_button" onclick = "bar_minions_replace()"><li><a>CS</a></li></div>
             <div class="toggle_button" onclick = "bar_gold_replace()"><li><a>Gold</a></li></div>
             <div class="toggle_button" onclick = "bar_vision_replace()"><li><a>Vision</a></li></div>
             <div class="toggle_button" onclick = "bar_cc_replace()"><li><a>CC</a></li></div>
-            <div class="toggle_button" onclick = "bar_dead_replace()"><li><a>Dead</a></li></div>
-            <div class="toggle_button" onclick = "bar_living_replace()"><li><a>Alive</a></li></div>
         </div>
     </div>
 
@@ -141,118 +137,20 @@
             </div>
         </div>
     </div>
-
-    
-
-    <div class="basic">
-        <center><div id="bar_chart" class="toggled_bar_chart" >
-            {{bar_chart | safe}}
-            </div></center>
+      
+    <div class="bubble_wrapper">
+        <div class="basic">
+            <div class="heatmap_chart">
+            {{heatmap_html | safe}}
+            </div>
+        </div>
+        <div class="basic">
+            <div class="bubble_chart">
+            {{bubble_html | safe}}
+            </div>
+        </div>
     </div>
-        
-    </div>
-
-    <div class="basic">
-        <canvas id="heatmap" width="10" height="10" class="heatmap_chart"></canvas>
-    </div>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-        var summoner1_positions = {{summoner1_positions | safe}};
-        var summoner2_positions = {{summoner2_positions | safe}};
-        var summoner3_positions = {{summoner3_positions | safe}};
-        var summoner4_positions = {{summoner4_positions | safe}};
-        var summoner5_positions = {{summoner5_positions | safe}};
-        var summoner6_positions = {{summoner6_positions | safe}};
-        var summoner7_positions = {{summoner7_positions | safe}};
-        var summoner8_positions = {{summoner8_positions | safe}};
-        var summoner9_positions = {{summoner9_positions | safe}};
-        var summoner10_positions = {{summoner10_positions | safe}};
-        var data = {
-        datasets: [
-            {
-            label: "{{champions[0]}}",
-            data: summoner1_positions,
-            backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-            label: "{{champions[1]}}",
-            data: summoner2_positions,
-            backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-            label: "{{champions[2]}}",
-            data: summoner3_positions,
-            backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-            label: "{{champions[3]}}",
-            data: summoner4_positions,
-            backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-            label: "{{champions[4]}}",
-            data: summoner5_positions,
-            backgroundColor: 'rgb(255, 99, 132)'
-        },
-        {
-            label: "{{champions[5]}}",
-            data: summoner6_positions,
-            backgroundColor: 'rgb(30,144,255)'
-        },
-        {
-            label: "{{champions[6]}}",
-            data: summoner7_positions,
-            backgroundColor: 'rgb(30,144,255)'
-        },
-        {
-            label: "{{champions[7]}}",
-            data: summoner8_positions,
-            backgroundColor: 'rgb(30,144,255)'
-        },
-        {
-            label: "{{champions[8]}}",
-            data: summoner9_positions,
-            backgroundColor: 'rgb(30,144,255)'
-        },
-        {
-            label: "{{champions[9]}}",
-            data: summoner10_positions,
-            backgroundColor: 'rgb(30,144,255)'
-        }
-    ],
-        };
-        var config = {
-        type: 'scatter',
-        data: data,
-        options: {
-            elements: {
-                point: {
-                    radius: 5
-                }
-            },
-            scales: {
-            x: {
-                display: false,
-                grid: {
-                    display: false},
-                min: 0,
-                max: 15000
-            },
-            y: {
-                display: false,
-                grid: {
-                    display: false},
-                min: 0,
-                max: 15000
-            }
-            }
-        }
-        };
-        var myChart = new Chart(
-            document.getElementById('heatmap'),
-            config
-        );
-        </script>
+        </div>
 
     <script type = "text/javascript">
     function damage_replace() {

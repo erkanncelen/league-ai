@@ -7,6 +7,8 @@ import json
 
 import plotly.express as px
 import plotly.io as pio
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 from riot_api_connection import riot_api
 import data_formation
@@ -17,9 +19,13 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/test")
-def test():
-    return render_template('test.html')
+@app.route("/about")
+def about():
+    return render_template('about.html')
+
+@app.route("/patreon")
+def patreon():
+    return render_template('patreon.html')
 
 @app.route("/", methods=['POST'])
 def game_report():
@@ -36,16 +42,6 @@ def game_report():
     game_timeline = api.get_game_timeline_by_match_id(last_game)
 
     game_timeline_df = data_formation.game_timeline_to_df(game_timeline, game_df)
-    summoner1_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[0]])]['position'])).replace('"','')
-    summoner2_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[1]])]['position'])).replace('"','')
-    summoner3_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[2]])]['position'])).replace('"','')
-    summoner4_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[3]])]['position'])).replace('"','')
-    summoner5_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[4]])]['position'])).replace('"','')
-    summoner6_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[5]])]['position'])).replace('"','')
-    summoner7_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[6]])]['position'])).replace('"','')
-    summoner8_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[7]])]['position'])).replace('"','')
-    summoner9_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[8]])]['position'])).replace('"','')
-    summoner10_positions = json.dumps(list(game_timeline_df[game_timeline_df['championName'].isin([champions[9]])]['position'])).replace('"','')
 
     pio.templates.default = "plotly_dark"
     layout = {'plot_bgcolor': "rgba(0, 0, 0, 0)",'paper_bgcolor': "rgba(0, 0, 0, 0.5)",'legend_bgcolor': "rgba(0, 0, 0, 0)"}
@@ -84,13 +80,57 @@ def game_report():
     plotly_bar_charts = {}
 
     for key in bar_charts.keys():
-        fig = px.bar(game_df, y="championName", x=f"{key}", color='teamId', orientation='h', title=bar_charts[key])
+        fig = px.bar(game_df.sort_values(by=['teamId','teamPosition'], ascending=False), y="championName", x=f"{key}", opacity=0.8, color='teamId', orientation='h', title=bar_charts[key], color_discrete_sequence=["rgb(180,0,0, 0.8)", "rgb(0,128,128, 0.8)"])
         fig.update_layout(layout)
         fig.update_layout(showlegend=False, title_x=0.5)
         fig.update_xaxes(title_text='')
+        fig.update_xaxes(showgrid=False)
         fig.update_yaxes(title_text='')
+        fig.update_yaxes(showgrid=False)
         chart_html = pio.to_html(fig,full_html=False, include_plotlyjs=False, config = {'displayModeBar': False})
         plotly_bar_charts[key] = chart_html
+
+    fig = px.scatter(game_timeline_df, x="position_x", y="position_y", opacity=0.8, color="teamId", text="championName", animation_frame="timeframe", 
+    color_discrete_sequence=[ "rgb(0,128,128, 0.8)", "rgb(180,0,0, 0.8)"], title='Player Positioning')
+    fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 1500
+    fig.layout.updatemenus[0].buttons[0].args[1]['transition']['duration'] = 1500
+    fig.update_layout(layout)
+    fig.update_layout(showlegend=False, title_x=0.5)
+    fig.update_xaxes(range=[0, 15000])
+    fig.update_yaxes(range=[0, 15000])
+    fig.update_xaxes(visible=False)
+    fig.update_xaxes(showgrid=False, showticklabels=False)
+    fig.update_yaxes(visible=False)
+    fig.update_yaxes(showgrid=False, showticklabels=False)
+    fig.update_traces(textposition='top center')
+    fig.update_traces(marker_size=10)
+    fig.update_layout(
+                images= [dict(
+                    source='/static/img/lol-minimap.jpg',
+                    xref="paper", yref="paper",
+                    x=0, y=1,
+                    sizex=1, sizey=1,
+                    xanchor="left",
+                    yanchor="top",
+                    sizing="stretch",
+                    opacity=0.8,
+                    layer="below")])
+    
+    heatmap_html = pio.to_html(fig,full_html=False, include_plotlyjs=False, config = {'displayModeBar': False}, auto_play=True)
+
+    fig = px.scatter(game_timeline_df, y="xp", x="totalGold", size="totalDamageDoneToChampions", size_max=50, opacity=0.8, color="teamId", text="championName", animation_frame="timeframe", 
+    color_discrete_sequence=[ "rgb(0,128,128, 0.8)", "rgb(180,0,0, 0.8)"], title="Game Evolution (Bubble Size ~ Damage to Champions)")
+    fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 700
+    fig.layout.updatemenus[0].buttons[0].args[1]['transition']['duration'] = 1000
+    fig.update_layout(layout)
+    fig.update_layout(showlegend=False, title_x=0.5)
+    fig.update_yaxes(range=[0, game_timeline_df['xp'].max()+3000])
+    fig.update_xaxes(range=[0, game_timeline_df['totalGold'].max()+1500])
+    fig.update_yaxes(title_text='XP')
+    fig.update_xaxes(title_text='Gold Earned')
+    fig.update_traces(textposition='middle center')
+
+    bubble_html = pio.to_html(fig,full_html=False, include_plotlyjs=False, config = {'displayModeBar': False}, auto_play=True)
     
     return render_template('game_report.html',
     champions = champions,
@@ -99,21 +139,12 @@ def game_report():
     chart_data_js = chart_data_js,
     labels = labels,
 
-    summoner1_positions = summoner1_positions,
-    summoner2_positions = summoner2_positions,
-    summoner3_positions = summoner3_positions,
-    summoner4_positions = summoner4_positions,
-    summoner5_positions = summoner5_positions,
-    summoner6_positions = summoner6_positions,
-    summoner7_positions = summoner7_positions,
-    summoner8_positions = summoner8_positions,
-    summoner9_positions = summoner9_positions,
-    summoner10_positions = summoner10_positions,
-
     plotly_line_charts = plotly_line_charts,
     line_chart_keys = line_charts.keys(),
     plotly_bar_charts = plotly_bar_charts,
-    bar_chart_keys = bar_charts.keys()
+    bar_chart_keys = bar_charts.keys(),
+    heatmap_html = heatmap_html,
+    bubble_html = bubble_html
     
     )
 

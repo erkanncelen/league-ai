@@ -127,7 +127,8 @@ canvas {
   display: grid;
   grid-template-rows: 2;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  
+  padding-right: 100px;
+  padding-left: 100px;
 }
 
 .chart {
@@ -148,14 +149,22 @@ canvas {
 
 .heatmap_chart {
   text-align: center;
-  padding: 2px;
-  margin-right: 200px;
-  margin-left: 200px;
-  background-image: url("../img/summoners_rift_minimap.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border: 2px solid rgb(255, 248, 248);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.bubble_chart {
+  text-align: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .toggled_chart {
@@ -163,7 +172,6 @@ canvas {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  /* border: 2px solid rgb(255, 248, 248); */
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -202,6 +210,17 @@ canvas {
   display: grid;
   grid-template-rows: 1;
   grid-template-columns: 1fr 1fr;
+  padding-right: 100px;
+  padding-left: 100px;
+}
+
+.bubble_wrapper {
+  display: grid;
+  height: 120%;
+  grid-template-rows: 1;
+  grid-template-columns: 1fr 2fr;
+  padding-right: 100px;
+  padding-left: 100px;
 }
 
 .toggle_button {
