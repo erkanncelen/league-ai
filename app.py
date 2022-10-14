@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask import request, escape
 import pandas as pd
 import numpy as np
+import os
 import logging
 import json
 
@@ -150,4 +151,5 @@ def game_report():
 
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=True, host='0.0.0.0', port=port)
