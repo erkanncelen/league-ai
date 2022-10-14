@@ -44,6 +44,8 @@ def game_report():
 
     game_timeline_df = data_formation.game_timeline_to_df(game_timeline, game_df)
 
+    api.get_all_league_entries_by_queue_tier_division()
+
     pio.templates.default = "plotly_dark"
     layout = {'plot_bgcolor': "rgba(0, 0, 0, 0)",'paper_bgcolor': "rgba(0, 0, 0, 0.5)",'legend_bgcolor': "rgba(0, 0, 0, 0)"}
 
